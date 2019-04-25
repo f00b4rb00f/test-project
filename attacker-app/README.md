@@ -1,70 +1,4 @@
-# vulnerable-app & attacker-app
-There are two applications within this repository that were generated from the HotTowel Angular generator. The main one is the `vulnerable-app` which is found in the `/src` folder. This application was built intentionally built out with vulnerabilities to easily demonstrate how they are performed by an attacker. The secondary application is the `attacker-app` found in the `/attacker-app` folder and it was built out to assist in demonstrating an attacker's website that is exploiting the vulnerabilities in the `vulnerable-app`.
-
-## Requirements
-1. Node.js v4.2.x
-2. NPM v3.10.x
-
-> Straying from these versions may result in unanticipated behavior and it cannot be guaranteed the app will produce the expected results.
-
-## How to Run Both Apps
-1. Open your terminal and `cd` to the root folder for this repository
-2. Run `gulp serve-dev` to spin up the `vulnerable-app`
-3. You should see your browser open up a new tab to the following URL: [http://localhost:3000](http://localhost:3000)
-4. Open a new terminal window or tab and `cd` to the `/attacker-app` folder from the root location of this repository
-5. Run `gulp serve-dev`
-6. You should see your browser open up another new tab to the following URL: [http://localhost:3002](http://localhost:3002)
-
-## How to Test
-
-### XSS
-The following steps will demonstrate a simple example of being able to escape the context of where the search input text is printed on screen and used to execute an injectable script that the browser will execute.
-
-1. In the tab that's running the `vulnerable-app`, click on the option `XSS-Search` in the navigation bar
-2. In the "Search" field enter the following text: `<script>alert('Malicious Script!');</script>`
-3. Click the "Submit" button
-4. You should see an alert message pop up on your screen with the message "Malicious Script!"
-
-### CSRF
-The following steps will demonstrate a simple example of being able to submit requests on behalf of the logged in user within the vulnerable-app, but executed from the `attacker-app`.
-
-1. In the tab that's running the `vulnerable-app`, click on the option `CSRF` in the navigation bar and take note of the "User Profile" section within the view
-    > By default, the user's "First Name" should show the value of `Jim` and the "Last Name" as the value of `Bob`
-
-2. In the tab that's running the `attacker-app`, click on the option `CSRF-Attack` in the navigation bar. This will immediately execute the CSRF attack and display the forged POST data
-3. Go back to the tab that's running the `vulnerable-app` and make sure you're still in the `CSRF` view
-4. Click the "Get Latest User Profile" button and you should see that the user's profile was changed due to the CSRF attack
-
-    > The user's "First Name" should show the value of `Evil` and the "Last Name" as the value of `Hacker` now
-
-### Clickjacking
-The following steps will demonstrate a simple example of clickjacking by tricking the user of the `vulnerable-app` to click a seemingly harmless button in the `attacker-app` that actually executes an action in the `vulnerable-app`.
-
-1. In the tab that's running the `attacker-app`, click on the option `Clickjacking-Attack`
-    > You should be able to see that the `vulnerable-app` is loaded in the view, but with a low opacity
-
-2. Open the developer tools for the browser you're using and view the console
-3. Click the "Click to see awesome dog backflips!" button
-
-    > You should see a message in the console with the following text: "The profile was successfully deleted!"
-
-This example demonstrates that while the user thinks they're clicking on a button that will show them "awesome dog backflips", they're actually clicking on the "Delete Sensitive Information!" button found in the `vulnerable-app`. This is accomplished because the `attacker-app` can load the `vulnerable-app` in an `iframe` html element, style the iframe so it's not visible at all (in this case it is somewhat visible for demonstration purposes) and actually a "layer" deep from other html elements within the view, and place "clickbait" type elements on top of the iframe and over the areas the attacker wants the user to click within the iframe instead.
-
-## References/Further Reading
-1. [OWASP](https://www.owasp.org/)
-    1. [Cross-site Scripting Defense Cheat Sheet][1]
-    1. [Cross-site Request Forgery Defense Cheat Sheet][2]
-    1. [Clickjacking Defense Cheat Sheet](https://www.owasp.org/index.php/Clickjacking_Defense_Cheat_Sheet)
-2. [HTML5Rocks - CSP](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)
-3. [Angular $sanitize](https://docs.angularjs.org/api/ngSanitize/service/$sanitize)
-4. [Angular $sce](https://docs.angularjs.org/api/ng/service/$sce)
-5. [xss-filters](https://www.npmjs.com/package/xss-filters)
-6. [lusca](https://www.npmjs.com/package/lusca)
-
-[1]: https://www.owasp.org/index.php/XSS_(Cross_Site_Scripting)_Prevention_Cheat_Sheet
-[2]: https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)_Prevention_Cheat_Sheet
-
--------
+# attacker-app
 
 **Generated from HotTowel Angular**
 
@@ -332,6 +266,3 @@ The `blocks.router` module contains a routing helper module that assists in addi
 ## License
 
 MIT
-
-## Credits
-This a fork of [Clarkio](https://github.com/clarkio)'s [vulnerable-app](https://github.com/clarkio/vulnerable-app) repo.
